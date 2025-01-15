@@ -32,9 +32,18 @@ cd app
 git pull
 send_to_discord "Pulled repo"
 
+send_to_discord "Verifing CMake"
+if command -v cmake &> /dev/null
+then
+    echo "CMake is installed"
+else
+    echo "CMake is not installed"
+    apt install cmake
+fi
+
 # Install main requirements (capture output)
 send_to_discord "Installing main requirements..."
-requirements_output=$(pip install -r requirements.txt 2>&1)
+requirements_output=$(pip install -r /home/site/wwwroot/app/requirements.txt 2>&1)
 send_to_discord "$requirements_output"
 send_to_discord "Installed main requirements."
 
