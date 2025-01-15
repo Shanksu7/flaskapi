@@ -25,8 +25,8 @@ send_to_discord "Installing Git"
 apt-get install -y git
 send_to_discord "InstalledGit"
 
-send_to_discord "Cloning repo https://github.com/Shanksu7/fast_api_test into folder app..."
-git clone https://github.com/Shanksu7/fast_api_test app
+send_to_discord "Cloning repo https://github.com/Shanksu7/flaskapi.git into folder app..."
+git clone https://github.com/Shanksu7/flaskapi.git app
 send_to_discord "Cloned repo..."
 cd app
 git pull
