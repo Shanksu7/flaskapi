@@ -38,7 +38,7 @@ then
     send_to_discord "CMake is installed"
 else
     send_to_discord "CMake is not installed... installing...."
-    apt-get install build-essential
+    apt-get install -y build-essential
     pip install dlib
     apt install -y cmake
 fi
