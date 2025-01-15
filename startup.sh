@@ -35,10 +35,12 @@ send_to_discord "Pulled repo"
 send_to_discord "Verifing CMake"
 if command -v cmake &> /dev/null
 then
-    echo "CMake is installed"
+    send_to_discord "CMake is installed"
 else
-    echo "CMake is not installed"
-    apt install cmake
+    send_to_discord "CMake is not installed... installing...."
+    apt-get install build-essential
+    pip install dlib
+    apt install -y cmake
 fi
 
 # Install main requirements (capture output)
