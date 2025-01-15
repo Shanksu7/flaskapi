@@ -1,0 +1,47 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- develop
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: UsePythonVersion@0
+  displayName: Version
+  inputs:
+    versionSpec: '3.8.18'
+
+- script: |
+    python -m venv antenv
+    source antenv/bin/activate
+    python -m pip install
+    pip install setup
+    echo "Installing CMake"
+    apt install cmake
+    cmake --version
+    echo "Installing Requirements"
+    pip install --target="./.python_packages/lib/site-packages" -r ./requirements.txt    
+    sh requirements.sh
+    pip install fastapi uvicorn
+    echo "The uvicorn version installed in the machine is:"
+    uvicorn --version
+  displayName: 'Install dependencies'
+
+- task: ArchiveFiles@2
+  displayName: Compress Artifact
+  inputs:
+    rootFolderOrFile: $(System.DefaultWorkingDirectory)
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    replaceExistingArchive: true
+
+- task: PublishBuildArtifacts@1
+  displayName: Publish Artifact
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    ArtifactName: 'api-CommonService-Recognition-dev'
