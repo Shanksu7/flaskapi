@@ -43,8 +43,7 @@ fi
 
 # Install main requirements (capture output)
 send_to_discord "Installing main requirements..."
-requirements_output=$(pip install -r /home/site/wwwroot/app/requirements.txt 2>&1)
-send_to_discord "$requirements_output"
+pip install -r /home/site/wwwroot/app/requirements.txt
 send_to_discord "Installed main requirements."
 
 send_to_discord "Moving files to /home/site/wwwroot/..."
