@@ -57,5 +57,5 @@ async def validate_face(input_data: ValidateFace):
         return result
     
     except Exception as e:
-        result = ApiResponse(error=False, message=str(e), status=Status.INTERNAL_SERVER_ERROR)
-        raise HTTPException(status_code=500, detail=result.model_dump())
+        result = ApiResponse(error=False, message=str(e), status=Status.BAD_REQUEST)
+        raise HTTPException(status_code=400, detail=str(result.model_dump()))

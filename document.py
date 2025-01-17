@@ -38,16 +38,22 @@ def read_item(request: RecognizeDocumentRequest):
     try:    
         if ',' in request.b64:
             request.b64 = request.b64.split(',')[1]  # Take only the Base64-encoded part
+        
+        # Add padding if necessary
+        missing_padding = len(request.b64) % 4
+        if missing_padding:
+            request.b64 += "=" * (4 - missing_padding)  # Add the padding to the base64 string
 
         image = Image.open(BytesIO(base64.b64decode(request.b64)))
         
         if image.mode != "RGB":
             image = image.convert("RGB")
-        # resizing the image to be at least 224x224 and then cropping from the center
+        
+        # Resizing the image to be at least 224x224 and then cropping from the center
         size = (224, 224)
         image = ImageOps.fit(image, size, Image.Resampling.LANCZOS)
 
-        # turn the image into a numpy array
+        # Turn the image into a numpy array
         image_array = np.asarray(image)
 
         # Normalize the image
@@ -56,7 +62,7 @@ def read_item(request: RecognizeDocumentRequest):
         # Load the image into the array
         data[0] = normalized_image_array
 
-        # Predicts the model
+        # Predict using the model
         prediction = model.predict(data)
         index = np.argmax(prediction)
         class_name = class_names[index]
@@ -64,7 +70,6 @@ def read_item(request: RecognizeDocumentRequest):
         ismatch = class_name[2:].strip() == request.type
 
         print(class_name)
-        # Print prediction and confidence score
         print("Class:", class_name[2:], end="")
         print("Confidence Score:", confidence_score)
         print("match: ", ismatch)
@@ -73,5 +78,6 @@ def read_item(request: RecognizeDocumentRequest):
         return result
     
     except Exception as e:
-        result = ApiResponse(error=False, message=str(e), status=Status.INTERNAL_SERVER_ERROR)
-        raise HTTPException(status_code=500, detail=result.model_dump())
+        # Converting result to string for detail
+        result = ApiResponse(error=True, message=str(e), status=Status.BAD_REQUEST)
+        raise HTTPException(status_code=400, detail=str(result.model_dump()))  # Pass string to detail
