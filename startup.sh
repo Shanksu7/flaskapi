@@ -16,16 +16,18 @@ send_to_discord() {
          "https://discord.com/api/webhooks/1328763919363477524/CnA6ZInh1EtZlu8oXp3kfFhjAb_uqViic8TfLNbmrjwHXPkOmkm9ZkM6JRGh7-Hc4Y2H"
 }
 
+python -m venv venv
+source venv/bin/activate
+
+send_to_discord "Updating apt list"
+echo -e "deb http://archive.debian.org/debian stretch main contrib non-free\ndeb http://archive.debian.org/debian-security stretch/updates main contrib non-free" | tee /etc/apt/sources.list > /dev/null
+send_to_discord "Updated apt list"
 apt-get update
 
 apt-get install -y libglib2.0-0
 apt-get install -y libgl1-mesa-glx
 
 
-send_to_discord "Updating apt list"
-echo -e "deb http://archive.debian.org/debian stretch main contrib non-free\ndeb http://archive.debian.org/debian-security stretch/updates main contrib non-free" | tee /etc/apt/sources.list > /dev/null
-
-send_to_discord "Updated apt list"
 
 send_to_discord "Installing Git"
 apt-get install -y git
@@ -61,7 +63,7 @@ ss_output=$(ss -tulnp | grep :8000)
 if [[ -z "$ss_output" ]]; then
     send_to_discord "Port 8000 is not in use."
     send_to_discord "Running application..."
-    GUNICORN_CMD_ARGS="--timeout 600 --access-logfile '-' --error-logfile '-' -c /opt/startup/gunicorn.conf.py --chdir=/home/site/wwwroot" gunicorn app:app
+    GUNICORN_CMD_ARGS="--timeout 600 --access-logfile '-' --error-logfile '-' -c /opt/startup/gunicorn.conf.py --chdir=/home/site/wwwroot" uvicorn app:app
 else
     send_to_discord "The following processes are using port 8000:\n$ss_output"
 fi
