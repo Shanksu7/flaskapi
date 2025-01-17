@@ -16,8 +16,6 @@ send_to_discord() {
          "https://discord.com/api/webhooks/1328763919363477524/CnA6ZInh1EtZlu8oXp3kfFhjAb_uqViic8TfLNbmrjwHXPkOmkm9ZkM6JRGh7-Hc4Y2H"
 }
 
-source ~/antenv/bin/activate
-
 send_to_discord "Updating apt list"
 echo -e "deb http://archive.debian.org/debian stretch main contrib non-free\ndeb http://archive.debian.org/debian-security stretch/updates main contrib non-free" | tee /etc/apt/sources.list > /dev/null
 apt-get update
@@ -33,24 +31,6 @@ send_to_discord "Cloned repo..."
 cd app
 git pull
 send_to_discord "Pulled repo"
-
-send_to_discord "Verifing CMake"
-if command -v cmake &> /dev/null
-then
-    send_to_discord "CMake is installed"
-else
-    send_to_discord "CMake is not installed... installing...."
-    apt install -y build-essential
-    apt-get install -y g++ make
-
-    wget https://cmake.org/files/v3.21/cmake-3.21.4-linux-x86_64.tar.gz
-    tar -zxvf cmake-3.21.4-linux-x86_64.tar.gz
-    mv cmake-3.21.4-linux-x86_64 /home/cmake
-    
-    export PATH=/home/cmake/bin:$PATH
-    
-    pip install dlib
-fi
 
 # Install main requirements (capture output)
 send_to_discord "Installing main requirements..."
