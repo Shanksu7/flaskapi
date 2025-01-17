@@ -16,6 +16,10 @@ send_to_discord() {
          "https://discord.com/api/webhooks/1328763919363477524/CnA6ZInh1EtZlu8oXp3kfFhjAb_uqViic8TfLNbmrjwHXPkOmkm9ZkM6JRGh7-Hc4Y2H"
 }
 
+export APP_PATH="/home/site/wwwroot"
+export PATH="/opt/python//bin:${PATH}"
+apt-get install libglib2.0-0
+
 send_to_discord "Updating apt list"
 echo -e "deb http://archive.debian.org/debian stretch main contrib non-free\ndeb http://archive.debian.org/debian-security stretch/updates main contrib non-free" | tee /etc/apt/sources.list > /dev/null
 apt-get update
