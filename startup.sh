@@ -44,7 +44,6 @@ send_to_discord "removing /home/site/wwwroot/app"
 rm -r app
 send_to_discord "Giving execution rights to startup.sh"
 chmod -x startup.sh
-chmod -x startup2.sh
 # Start the FastAPI app with Gunicorn (capture output)
 #echo "Starting FastAPI app guvicorn..."
 #
