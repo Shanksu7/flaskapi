@@ -83,7 +83,7 @@ ss_output=$(ss -tulnp | grep :8000)
 if [[ -z "$ss_output" ]]; then
     send_to_discord "Port 8000 is not in use."
     send_to_discord "Running application uvicorn app:app..."
-    GUNICORN_CMD_ARGS="--timeout 600 --access-logfile '-' --error-logfile '-' -c /opt/startup/gunicorn.conf.py --chdir=/home/site/wwwroot" uvicorn app:app
+    GUNICORN_CMD_ARGS="--timeout 600 --access-logfile '-' --error-logfile '-' -c /opt/startup/gunicorn.conf.py --chdir=/home/site/wwwroot" uvicorn app:app --host 0.0.0.0 --port 8000
 else
     send_to_discord "The following processes are using port 8000:\n$ss_output"
 fi
