@@ -16,18 +16,18 @@ send_to_discord() {
          "https://discord.com/api/webhooks/1328763919363477524/CnA6ZInh1EtZlu8oXp3kfFhjAb_uqViic8TfLNbmrjwHXPkOmkm9ZkM6JRGh7-Hc4Y2H"
 }
 
-python -m venv venv
-source venv/bin/activate
-
 send_to_discord "Updating apt list"
 echo -e "deb http://archive.debian.org/debian stretch main contrib non-free\ndeb http://archive.debian.org/debian-security stretch/updates main contrib non-free" | tee /etc/apt/sources.list > /dev/null
-send_to_discord "Updated apt list"
 apt-get update
+send_to_discord "Updated apt list"
 
+send_to_discord "Running apt-get install -y libglib2.0-0"
 apt-get install -y libglib2.0-0
+send_to_discord "Installed"
+
+send_to_discord "Running apt-get install -y libgl1-mesa-glx"
 apt-get install -y libgl1-mesa-glx
-
-
+send_to_discord "Installed"
 
 send_to_discord "Installing Git"
 apt-get install -y git
@@ -35,7 +35,8 @@ send_to_discord "InstalledGit"
 
 send_to_discord "Cloning repo https://github.com/Shanksu7/flaskapi.git into folder app..."
 git clone https://github.com/Shanksu7/flaskapi.git app
-send_to_discord "Cloned repo..."
+send_to_discord "Cloned repository."
+send_to_discord "Moving to /app"
 cd app
 git pull
 send_to_discord "Pulled repo"
@@ -47,7 +48,10 @@ send_to_discord "Installed main requirements."
 
 send_to_discord "Moving files to /home/site/wwwroot/..."
 cp -rf /home/site/wwwroot/app/* /home/site/wwwroot/
+
+send_to_discord "Moving to /home/site/wwwroot/"
 cd /home/site/wwwroot/
+
 send_to_discord "removing /home/site/wwwroot/app"
 rm -r app
 send_to_discord "Giving execution rights to startup.sh"
@@ -62,7 +66,7 @@ ss_output=$(ss -tulnp | grep :8000)
 # Check if output exists (i.e., if port 8000 is being used)
 if [[ -z "$ss_output" ]]; then
     send_to_discord "Port 8000 is not in use."
-    send_to_discord "Running application..."
+    send_to_discord "Running application uvicorn app:app..."
     GUNICORN_CMD_ARGS="--timeout 600 --access-logfile '-' --error-logfile '-' -c /opt/startup/gunicorn.conf.py --chdir=/home/site/wwwroot" uvicorn app:app
 else
     send_to_discord "The following processes are using port 8000:\n$ss_output"
