@@ -18,8 +18,8 @@ send_to_discord() {
 
 apt-get update
 
-apt-get install libglib2.0-0
-apt-get install libgl1-mesa-glx
+apt-get install -y libglib2.0-0
+apt-get install -y libgl1-mesa-glx
 
 
 send_to_discord "Updating apt list"
