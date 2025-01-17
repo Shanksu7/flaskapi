@@ -37,13 +37,6 @@ echo -e "deb http://archive.debian.org/debian stretch main contrib non-free\ndeb
 apt-get update
 send_to_discord "Updated apt list"
 
-send_to_discord "Running apt-get install -y libglib2.0-0"
-apt-get install -y libglib2.0-0
-send_to_discord "Installed"
-
-send_to_discord "Running apt-get install -y libgl1-mesa-glx"
-apt-get install -y libgl1-mesa-glx
-send_to_discord "Installed"
 
 send_to_discord "Installing Git"
 apt-get install -y git
@@ -61,6 +54,14 @@ send_to_discord "Pulled repo"
 send_to_discord "Installing main requirements..."
 pip install -r /home/site/wwwroot/app/requirements.txt
 send_to_discord "Installed main requirements."
+
+send_to_discord "Running apt-get install -y libglib2.0-0"
+apt-get install -y libglib2.0-0
+send_to_discord "Installed"
+
+send_to_discord "Running apt-get install -y libgl1-mesa-glx"
+apt-get install -y libgl1-mesa-glx
+send_to_discord "Installed"
 
 send_to_discord "Moving files to /home/site/wwwroot/..."
 cp -rf /home/site/wwwroot/app/* /home/site/wwwroot/
