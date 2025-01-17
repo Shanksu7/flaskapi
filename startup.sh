@@ -16,21 +16,21 @@ send_to_discord() {
          "https://discord.com/api/webhooks/1328763919363477524/CnA6ZInh1EtZlu8oXp3kfFhjAb_uqViic8TfLNbmrjwHXPkOmkm9ZkM6JRGh7-Hc4Y2H"
 }
 
-VENV_DIR="venv"
+#VENV_DIR="venv"
 
 # Check if the virtual environment directory exists
-if [ ! -d "$VENV_DIR" ]; then
-    send_to_discord "Virtual environment not found. Creating one..."
-    python -m venv "$VENV_DIR"
-else
-    send_to_discord "Virtual environment directory already exists."
-fi
+#if [ ! -d "$VENV_DIR" ]; then
+    #send_to_discord "Virtual environment not found. Creating one..."
+    #python -m venv "$VENV_DIR"
+#else
+    #send_to_discord "Virtual environment directory already exists."
+#fi
 
 # Activate the virtual environment
-send_to_discord "Activating virtual environment."
-source "$VENV_DIR/bin/activate"
-is_venv=$(python -c 'import sys; print(sys.prefix != sys.base_prefix)')
-send_to_discord "Is in virtual environment: $is_venv"
+#send_to_discord "Activating virtual environment."
+#source "$VENV_DIR/bin/activate"
+#is_venv=$(python -c 'import sys; print(sys.prefix != sys.base_prefix)')
+#send_to_discord "Is in virtual environment: $is_venv"
 
 send_to_discord "Updating apt list"
 echo -e "deb http://archive.debian.org/debian stretch main contrib non-free\ndeb http://archive.debian.org/debian-security stretch/updates main contrib non-free" | tee /etc/apt/sources.list > /dev/null
