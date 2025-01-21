@@ -1,5 +1,6 @@
 from domain.base.status import Status
 from fastapi import APIRouter, FastAPI, HTTPException
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from PIL import Image
 from io import BytesIO
@@ -19,7 +20,7 @@ def base64_to_image(base64_string):
     img_data = base64.b64decode(base64_string)
     
     # Convert to image using PIL
-    image = Image.open(BytesIO(img_data))
+    image = Image.open(BytesIO(img_data)).convert("RGB")
     
     # Convert the image to a NumPy array (OpenCV format)
     return np.array(image)
@@ -28,11 +29,11 @@ def has_face_val(base64_string):
     # Decode base64 to image
     image = base64_to_image(base64_string)
 
-
     # Detect faces
     faces = detector.detect_faces(image)
 
     # Return true if any faces are detected, otherwise false
+    print(faces)
     return len(faces) > 0
 
 
@@ -57,5 +58,5 @@ async def validate_face(input_data: ValidateFace):
         return result
     
     except Exception as e:
-        result = ApiResponse(error=False, message=str(e), status=Status.BAD_REQUEST)
-        raise HTTPException(status_code=400, detail=str(result.model_dump()))
+        result = ApiResponse(error=True, message=str(e), status=Status.BAD_REQUEST)
+        return JSONResponse(content=result.dict(), status_code=400)

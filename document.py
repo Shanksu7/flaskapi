@@ -1,6 +1,7 @@
 # items.py
 from http.client import HTTPException
 from fastapi import APIRouter, FastAPI, Body
+from fastapi.responses import JSONResponse
 from keras.models import load_model  # TensorFlow is required for Keras to work
 from PIL import Image, ImageOps  # Install pillow instead of PIL
 from io import BytesIO
