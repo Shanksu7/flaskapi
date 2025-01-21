@@ -18,10 +18,10 @@ send_to_discord() {
 
 #TAG AVOID ENVIRONMENT ON FREE TIER BECAUSE WILL CONSUME THE WHOLE DISK SPACE
 VENV_DIR="/home/venv"
- Check if the virtual environment directory exists
+#Check if the virtual environment directory exists
 if [ ! -d "$VENV_DIR" ]; then
     send_to_discord "Virtual environment not found. Creating one..."
-    python -m venv "$VENV_DIR"
+    python3 -m venv "$VENV_DIR"
 else
     send_to_discord "Virtual environment directory already exists."
 fi
