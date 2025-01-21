@@ -81,4 +81,4 @@ def read_item(request: RecognizeDocumentRequest):
     except Exception as e:
         # Converting result to string for detail
         result = ApiResponse(error=True, message=str(e), status=Status.BAD_REQUEST)
-        raise HTTPException(status_code=400, detail=str(result.model_dump()))  # Pass string to detail
+        return JSONResponse(content=result.dict(), status_code=400)

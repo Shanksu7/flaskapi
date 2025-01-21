@@ -17,10 +17,12 @@ detector = MTCNN()
 
 def base64_to_image(base64_string):
     # Decode the base64 string
-    img_data = base64.b64decode(base64_string)
-    
     # Convert to image using PIL
-    image = Image.open(BytesIO(img_data)).convert("RGB")
+    
+    image = Image.open(BytesIO(base64.b64decode(base64_string)))
+        
+    if image.mode != "RGB":
+        image = image.convert("RGB")
     
     # Convert the image to a NumPy array (OpenCV format)
     return np.array(image)
@@ -44,7 +46,8 @@ async def validate_face(input_data: ValidateFace):
         b64 = input_data.imageb64
 
         if b64 is None:
-            raise HTTPException(status_code=400, detail="La imagen no es válida.")
+            result = ApiResponse(error=True, message="La imagen no es valida", status=Status.BAD_REQUEST)
+            return JSONResponse(content=result.dict(), status_code=400)
 
         if ',' in input_data.imageb64:
             b64 = input_data.imageb64.split(',')[1]  # Take only the Base64-encoded part
