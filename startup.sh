@@ -17,20 +17,20 @@ send_to_discord() {
 }
 
 #TAG AVOID ENVIRONMENT ON FREE TIER BECAUSE WILL CONSUME THE WHOLE DISK SPACE
-#VENV_DIR="venv"
-# Check if the virtual environment directory exists
-#if [ ! -d "$VENV_DIR" ]; then
-    #send_to_discord "Virtual environment not found. Creating one..."
-    #python -m venv "$VENV_DIR"
-#else
-    #send_to_discord "Virtual environment directory already exists."
-#fi
+VENV_DIR="/home/venv"
+ Check if the virtual environment directory exists
+if [ ! -d "$VENV_DIR" ]; then
+    send_to_discord "Virtual environment not found. Creating one..."
+    python -m venv "$VENV_DIR"
+else
+    send_to_discord "Virtual environment directory already exists."
+fi
 
 # Activate the virtual environment
-#send_to_discord "Activating virtual environment."
-#source "$VENV_DIR/bin/activate"
-#is_venv=$(python -c 'import sys; print(sys.prefix != sys.base_prefix)')
-#send_to_discord "Is in virtual environment: $is_venv"
+send_to_discord "Activating virtual environment."
+source "$VENV_DIR/bin/activate"
+is_venv=$(python -c 'import sys; print(sys.prefix != sys.base_prefix)')
+send_to_discord "Is in virtual environment: $is_venv $VENV_DIR"
 #END TAG
 
 send_to_discord "Updating apt list"
