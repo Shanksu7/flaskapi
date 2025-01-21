@@ -38,6 +38,24 @@ echo -e "deb http://archive.debian.org/debian stretch main contrib non-free\ndeb
 apt-get update
 send_to_discord "Updated apt list"
 
+
+send_to_discord "Installing Git"
+apt-get install -y git
+send_to_discord "InstalledGit"
+
+send_to_discord "Cloning repo https://github.com/Shanksu7/flaskapi.git into folder app..."
+git clone https://github.com/Shanksu7/flaskapi.git app
+send_to_discord "Cloned repository."
+send_to_discord "Moving to /app"
+cd app
+git pull
+send_to_discord "Pulled repo"
+
+
+send_to_discord "Installing main requirements..."
+pip install -r /home/site/wwwroot/app/requirements.txt
+send_to_discord "Installed main requirements."
+
 send_to_discord "Running apt-get install -y libglib2.0-0"
 apt-get install -y libglib2.0-0
 send_to_discord "Installed"
@@ -45,6 +63,17 @@ send_to_discord "Installed"
 send_to_discord "Running apt-get install -y libgl1-mesa-glx"
 apt-get install -y libgl1-mesa-glx
 send_to_discord "Installed"
+
+send_to_discord "Moving files to /home/site/wwwroot/..."
+cp -rf /home/site/wwwroot/app/* /home/site/wwwroot/
+
+send_to_discord "Moving to /home/site/wwwroot/"
+cd /home/site/wwwroot/
+
+send_to_discord "removing /home/site/wwwroot/app"
+rm -r app
+send_to_discord "Giving execution rights to startup.sh"
+chmod -x startup.sh
 
 ss_output=$(ss -tulnp | grep :8000)
 
