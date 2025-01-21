@@ -17,7 +17,7 @@ send_to_discord() {
 }
 
 #TAG AVOID ENVIRONMENT ON FREE TIER BECAUSE WILL CONSUME THE WHOLE DISK SPACE
-VENV_DIR="/home/venv"
+VENV_DIR="/home/site/wwwroot/antenv"
 #Check if the virtual environment directory exists
 if [ ! -d "$VENV_DIR" ]; then
     send_to_discord "Virtual environment not found. Creating one..."

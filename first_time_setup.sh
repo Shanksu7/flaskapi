@@ -1,5 +1,5 @@
-python3 -m venv /home/venv
-source "/home/venv/bin/activate"
+python3 -m venv /home/site/wwwroot/antenv
+source "/home/site/wwwroot/antenv/bin/activate"
 echo -e "deb http://archive.debian.org/debian stretch main contrib non-free\ndeb http://archive.debian.org/debian-security stretch/updates main contrib non-free" | tee /etc/apt/sources.list > /dev/null
 apt-get update
 apt-get install -y git
