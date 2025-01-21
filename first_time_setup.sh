@@ -6,9 +6,6 @@ apt-get install -y git
 git clone https://github.com/Shanksu7/flaskapi app
 cd app
 git pull
-cp -rf /home/site/wwwroot/app/* /home/site/wwwroot/
-cd /home/site/wwwroot/
-rm -r app
 chmod -x startup.sh
 pip install -r requirements.txt
 deactivate
