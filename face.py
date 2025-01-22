@@ -39,7 +39,7 @@ def has_face_val(base64_string):
     return len(faces) > 0
 
 
-@router.post("/validate-face/", response_model=ApiResponse[ValidateFaceResponse])
+@router.post("/validate-face", response_model=ApiResponse[ValidateFaceResponse])
 async def validate_face(input_data: ValidateFace):
     try:
 
